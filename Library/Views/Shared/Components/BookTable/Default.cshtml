@@ -1,0 +1,51 @@
+﻿@using Library.Models
+
+@model (List<Book>, User)
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Книга (Всего: @Model.Item1.Count())</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Количество читателей</th>
+                <th scope="col">Отметить прочитанное</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                int i = 0;
+
+                foreach (var book in Model.Item1)
+                {
+                    i++;
+
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@book.Name</td>
+                        <td>@book.Author</td>
+                        <td>
+                            <span id="readerCount @book.Id">@book.NumberOfReaders</span>
+                        </td>
+                        @*Данная книга была уже отмечена текущим авторизованным пользователем ?*@
+                        @if (book.BookUsers.Any(p => p.User.Id == Model.Item2.Id))
+                        {
+                            <td>
+                                <button disabled type="button" class="btn btn-success">Прочитано</button>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <button type="button" class="btn btn-warning btn-confirm-read" id="@book.Id">Отметить как прочитанное</button>
+                            </td>
+                        }
+
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+    </table>

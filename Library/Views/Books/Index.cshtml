@@ -1,0 +1,110 @@
+﻿@using Library.Models
+
+@model List<Book>
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+            <img src="~/svg/bike_icon.svg" width="60" height="60" class="d-inline-block align-middle" alt="" loading="lazy">
+            <Strong>Книжный клуб</Strong>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse flex-column" id="navbarNav">
+            <ul class="navbar-nav justify-content-end" style="width: 100%">
+
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <span>Вы вошли как "@User.Identity.Name"</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">
+                        <span>
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bookshelf" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M2.5 0a.5.5 0 0 1 .5.5V2h10V.5a.5.5 0 0 1 1 0v15a.5.5 0 0 1-1 0V15H3v.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zM3 14h10v-3H3v3zm0-4h10V7H3v3zm0-4h10V3H3v3z" />
+                            </svg>
+                        </span>
+                        <span>
+                            Назад к общему списку книг
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+
+                    <form name="Logout_Form" method="post" asp-controller="Account" asp-action="Logout">
+                    </form>
+
+                    <a href="javascript:void(0)" OnClick='document.Logout_Form.submit();' class="nav-link">
+                        <span>
+                            <svg class="bi bi-door-closed" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2zm1 0v13h8V2H4z" />
+                                <path d="M7 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                <path fill-rule="evenodd" d="M1 15.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </span>
+                        <span>
+                            Выход
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="alert-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                    <strong>Добро пожаловать в личный кабинет '@User.Identity.Name'! </strong>           
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="book-table">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Книга</th>
+                            <th scope="col">Автор</th>
+                            <th scope="col">Удалить из списка прочитанного?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 0;
+
+                            foreach (var book in Model)
+                            {
+                                i++;
+
+                                <tr id="row @book.Id">
+                                    <th scope="row">@i</th>
+                                    <td>@book.Name</td>
+                                    <td>@book.Author</td>
+                                    <td>
+                                        <button  id="@book.Id" type="button" class="btn btn-danger btn-confirm-del">Удалить из прочитанного</button>
+                                    </td>                            
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
